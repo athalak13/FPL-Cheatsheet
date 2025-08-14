@@ -41,8 +41,8 @@ weights = {
 # ---- Filters (Position, Team only)
 with st.sidebar:
     st.header("Filters")
-    pos_opts = sorted(df["Position"].dropna().unique().tolist())
-    team_opts = sorted(df["Team"].dropna().unique().tolist())
+    pos_opts = sorted(df["Pos"].dropna().unique().tolist())
+    team_opts = sorted(df["Squad"].dropna().unique().tolist())
 
     pos_sel = st.multiselect("Position", pos_opts, default=pos_opts)
     team_sel = st.multiselect("Team", team_opts, default=team_opts)
