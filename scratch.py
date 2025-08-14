@@ -17,7 +17,7 @@ df = pd.read_csv(uploaded)
 
 # ---- Validate required columns
 required_cols = [
-    "Player","Team","Position",
+    "Player","Squad","Pos",
     "xG_Expected","xAG_Expected","G+A","TklW_Tackles","Sh_Blocks","Int","Clr","Recov","Min_Playing"
 ]
 missing = [c for c in required_cols if c not in df.columns]
@@ -44,11 +44,11 @@ with st.sidebar:
     pos_opts = sorted(df["Pos"].dropna().unique().tolist())
     team_opts = sorted(df["Squad"].dropna().unique().tolist())
 
-    pos_sel = st.multiselect("Position", pos_opts, default=pos_opts)
-    team_sel = st.multiselect("Team", team_opts, default=team_opts)
+    pos_sel = st.multiselect("Pos", pos_opts, default=pos_opts)
+    team_sel = st.multiselect("Squad", team_opts, default=team_opts)
 
 # Apply filters
-mask = df["Position"].isin(pos_sel) & df["Team"].isin(team_sel)
+mask = df["Pos"].isin(pos_sel) & df["Squad"].isin(team_sel)
 df_f = df.loc[mask].copy()
 
 if df_f.empty:
@@ -73,7 +73,7 @@ df_f["Score"] = sum(norm_df[c] * w for c, w in weights.items())
 df_f["Rank"] = df_f["Score"].rank(ascending=False, method="dense").astype(int)
 
 # ---- Output (ONLY score + minimal identity fields)
-out_cols = ["Player", "Team", "Position", "Score", "Rank"]
+out_cols = ["Player", "Squad", "Pos", "Score", "Rank"]
 df_out = df_f[out_cols].sort_values(["Score"], ascending=False)
 
 st.subheader("Results")
